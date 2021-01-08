@@ -1,1 +1,3 @@
-# python-snippets
+# Python Code Snippets
+
+Snip, snip!
