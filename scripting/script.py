@@ -5,6 +5,10 @@ import os
 import platform
 import subprocess
 
+# default logging level is debug
+logging.getLogger("").setLevel(logging.DEBUG)
+
+# directory this file is in
 currentDirectory = os.path.dirname(os.path.realpath(__file__))
 
 #############################################################################
@@ -39,26 +43,28 @@ console.setLevel(logging.DEBUG if args.verbose else logging.INFO)
 console.setFormatter(logging.Formatter("%(message)s"))
 logging.getLogger("").addHandler(console)
 logger = logging.getLogger(__name__)
-logger.setLevel(console.level)
+
 
 
 #############################################################################
 # Perform operation
 #############################################################################
 
-# windows needs shell
-shell = platform.system().lower() == "windows"
+if __name__ == "__main__":
 
-# run echo command
-cmd = ["echo", "operation: {}, number: {}".format(args.operation, args.number)]
-ret = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell)
-
-# log messages
-logger.info("This is the current directory: {}".format(currentDirectory))
-logger.info("This is the operating system: {}".format(platform.system()))
-
-# print messages
-print("This is what was output to stdout:", ret.stdout.decode("utf-8"))
-print("This is what was output to stderr:", ret.stderr.decode("utf-8"))
-
-sys.exit(0)
+  # windows needs shell
+  shell = platform.system().lower() == "windows"
+  
+  # run echo command
+  cmd = ["echo", "operation: {}, number: {}".format(args.operation, args.number)]
+  ret = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell)
+  
+  # log messages
+  logger.info("This is the current directory: {}".format(currentDirectory))
+  logger.info("This is the operating system: {}".format(platform.system()))
+  
+  # print messages
+  logger.info("This is what was output to stdout:", ret.stdout.decode("utf-8"))
+  logger.info("This is what was output to stderr:", ret.stderr.decode("utf-8"))
+  
+  sys.exit(0)
